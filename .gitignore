@@ -1,0 +1,19 @@
+# Environments
+venv/
+.venv/
+env/
+.env/
+
+# Cache
+__pycache__/
+
+.idea/
+.vscode/
+
+# Extensions
+.pt
+
+# Data
+data
+log/
+models/

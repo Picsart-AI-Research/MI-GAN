@@ -1,0 +1,131 @@
+ffhq:
+  symbol: ffhq
+  type: ffhq
+  super_cfg: null
+  allow_partial: true
+
+  root_dir: data/FFHQ
+
+  mode: null
+  loader: null
+  formatter: null
+
+ffhq_train:
+  super_cfg: ffhq
+  mode: train
+  loader: 
+    - type: DefaultLoader
+      args: {}
+  repeat: 1
+  formatter: 
+    type: DefaultFormatter
+    args: {}
+
+ffhq_train_512:
+  super_cfg: ffhq_train
+  loader: 
+    - type: R512Loader
+      args: {}
+  repeat: 1
+
+###############
+# ffhq simple #
+###############
+
+ffhqsimple:
+  symbol: ffhq
+  type: ffhqsimple
+  super_cfg: null
+
+  root_dir: data/ffhq
+
+  mode: null
+  loader: null
+  formatter: null
+
+ffhqsimple_train256:
+  super_cfg: ffhqsimple
+  mode: train256
+  loader: 
+    - type: DefaultLoader
+      args: {}
+  repeat: 1
+  formatter: 
+    type: ImageOnlyFormatter
+    args: {}
+
+############
+# ffhq zip #
+############
+
+ffhqzip:
+  symbol: ffhq
+  type: ffhqzip
+  super_cfg: null
+
+  root_dir: data/ffhq
+
+  mode: null
+  loader: null
+  formatter: null
+
+###############################################
+# ffhq 256 and 512 mimic comodgan paper split #
+###############################################
+# a) split is 10000-69999 train, 0-9999 val
+
+ffhqzip_train256_inpainting:
+  super_cfg: ffhqzip
+  mode: train256
+  loader: 
+    - type: ZipLoader
+      args: {}
+  repeat: 1
+  formatter: 
+    type: RandomMaskFormatter
+    args: 
+      random_flip: True
+      mask_resolution: 256
+      hole_range: [0, 1]
+
+ffhqzip_val256_inpainting:
+  super_cfg: ffhqzip
+  mode: val256
+  loader: 
+    - type: ZipLoader
+      args: {}
+  repeat: 1
+  formatter: 
+    type: RandomMaskFormatter
+    args: 
+      random_flip: False
+      mask_resolution: 256
+      hole_range: [0, 1]
+
+ffhqzip_train512_inpainting:
+  super_cfg: ffhqzip
+  mode: train512
+  loader: 
+    - type: ZipLoader
+      args: {}
+  repeat: 1
+  formatter: 
+    type: RandomMaskFormatter
+    args: 
+      random_flip: True
+      mask_resolution: 512
+      hole_range: [0, 1]
+
+ffhqzip_val512_inpainting:
+  super_cfg: ffhqzip
+  mode: val512
+  loader: 
+    - type: ZipLoader
+      args: {}
+  repeat: 1
+  formatter: 
+    type: RandomMaskFormatter
+    args: 
+      random_flip: False
+      mask_resolution: 512
+      hole_range: [0, 1]

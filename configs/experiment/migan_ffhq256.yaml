@@ -1,0 +1,76 @@
+env:
+  debug: false
+  cuda: true
+  dist_backend: nccl
+  dist_url: tcp://127.0.0.1:11233
+  gpu_device: all
+  matplotlib_mode: agg
+  log_root_dir: log
+  rnd_seed: 0
+  allow_tf32: false
+  cudnn_benchmark: false
+
+model:
+  symbol: migan
+  type: migan_generator
+
+model_g: MODEL(migan_dw_reparam_g256)
+model_d: MODEL(migan_dw_reparam_d256)
+
+train:
+  experiment_id: null
+  signature: []
+  exec_stage: migan_default.train_stage
+
+  dataset: DATASET(ffhqzip_train256_inpainting)
+
+  batch_size_per_gpu: null
+  batch_size: 32
+  dataset_num_workers_per_gpu: 4
+  dataset_num_workers: null
+  skip_partial_batch: true
+
+  image_level_kd_kwargs:
+    use_image_level_kd: True
+    inference_resolution: 256
+    start_resolution: 32
+    weight: 2.0
+    teacher1_path: ./models/comodgan_256_ffhq.pt
+
+  loss_kwargs:
+    r1_gamma: 10
+
+  g_opt_kwargs:
+    class_name: torch.optim.Adam
+    lr: 0.001
+    betas: [0, 0.99]
+    eps: 1.e-08
+  g_reg_interval: 4
+
+  d_opt_kwargs:
+    class_name: torch.optim.Adam
+    lr: 0.001
+    betas: [0, 0.99]
+    eps: 1.e-08
+  d_reg_interval: 16
+
+  total_kimg: 50000
+  ema_kimg: 20
+  ema_rampup: null
+  kimg_per_tick: 4
+  snapshot:
+    evaluate: 25
+    image: 500
+    checkpoint: 500
+  metrics:
+    - fid10k_full_inpainting
+
+  save_init_model: false
+  save_code: true
+
+eval:
+  dataset: DATASET(ffhqzip_val256_inpainting)
+  batch_size_per_gpu: null
+  batch_size: 32
+  dataset_num_workers_per_gpu: 4
+  dataset_num_workers: null

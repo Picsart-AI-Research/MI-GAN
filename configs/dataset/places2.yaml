@@ -1,0 +1,56 @@
+places2:
+  symbol: places2
+  type: places2
+  super_cfg: null
+
+  root_dir: data/Places2
+
+  mode: null
+  loader: null
+  formatter: null
+
+places2_train256_inpainting:
+  super_cfg: places2
+  mode: train256
+  loader: 
+    - type: DefaultLoader
+      args: {}
+  formatter: 
+    type: FreeFormMaskFormatter
+    args: 
+      random_flip: true
+      resolution: 256
+      hole_range: [0.0, 1.0]
+
+places2_val256_inpainting:
+  super_cfg: places2_train256_inpainting
+  mode: val256
+  formatter: 
+    type: FreeFormMaskFormatter
+    args: 
+      random_flip: false
+      resolution: 256
+      hole_range: [0.0, 1.0]
+
+places2_train512_inpainting:
+  super_cfg: places2
+  mode: train512
+  loader: 
+    - type: DefaultLoader
+      args: {}
+  formatter: 
+    type: FreeFormMaskFormatter
+    args: 
+      random_flip: true
+      resolution: 512
+      hole_range: [0.0, 1.0]
+
+places2_val512_inpainting:
+  super_cfg: places2_train512_inpainting
+  mode: val512
+  formatter: 
+    type: FreeFormMaskFormatter
+    args: 
+      random_flip: false
+      resolution: 512
+      hole_range: [0.0, 1.0]

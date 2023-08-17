@@ -1,0 +1,300 @@
+############################################################################################
+############################ REGULAR BASELINE NETWORKS ###################################
+############################################################################################
+
+#############
+# 256 Big network
+#############
+
+migan_e256:
+  symbol: migan
+  type: migan_encoder
+  args:
+    resolution: 256
+    ic_n: 4
+    ch_base: 32768
+    ch_max: 512
+    resample_filter: [1, 3, 3, 1]
+    activation: lrelu_agc(alpha=0.2, gain=sqrt_2, clamp=256)
+  pretrained: null
+
+migan_s256:
+  symbol: migan
+  type: migan_synthesis
+  args:
+    resolution: 256
+    rgb_n: 3
+    ch_base: 32768
+    ch_max: 512
+    resample_filter : [1, 3, 3, 1]
+    activation : lrelu_agc(alpha=0.2, gain=sqrt_2, clamp=256)
+  pretrained: null
+
+migan_d256:
+  symbol: migan
+  type: migan_discriminator
+  args:
+    resolution: 256
+    ic_n: 4
+    ch_base: 32768
+    ch_max: 512
+    resample_filter: [1, 3, 3, 1]
+    activation: lrelu_agc(alpha=0.2, gain=sqrt_2, clamp=256)
+    mbstd_group_size: 4
+    mbstd_c_n: 1
+  pretrained: null
+
+migan_g256:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_e256)
+    synthesis: MODEL(migan_s256)
+  pretrained: null
+
+################
+# 512 Big network
+################
+
+migan_e512:
+  super_cfg: migan_e256
+  args:
+    resolution: 512
+
+migan_s512:
+  super_cfg: migan_s256
+  args:
+    resolution: 512
+
+migan_d512:
+  super_cfg: migan_d256
+  args:
+    resolution: 512
+
+migan_g512:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_e512)
+    synthesis: MODEL(migan_s512)
+  pretrained: null
+
+
+################
+# 128 Big network
+################
+
+migan_e128:
+  super_cfg: migan_e256
+  args:
+    resolution: 128
+
+migan_s128:
+  super_cfg: migan_s256
+  args:
+    resolution: 128
+
+migan_d128:
+  super_cfg: migan_d256
+  args:
+    resolution: 128
+
+migan_g128:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_e128)
+    synthesis: MODEL(migan_s128)
+  pretrained: null
+
+
+############################################################################################
+######################### REGULAR BASELINE + REPARAM NETWORKS ##############################
+############################################################################################
+
+################
+# 256 Small (depth-wise+reparam) network (student)
+################
+
+migan_reparam_e256:
+  super_cfg: migan_e256
+  args:
+    reparametrize: True
+    num_reparam_tensors: 4
+
+migan_reparam_s256:
+  super_cfg: migan_s256
+  args:
+    reparametrize: True
+    num_reparam_tensors: 4
+
+migan_reparam_g256:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_reparam_e256)
+    synthesis: MODEL(migan_reparam_s256)
+  pretrained: null
+
+migan_reparam_d256:
+  super_cfg: migan_d256
+  args:
+    reparametrize: True
+    num_reparam_tensors: 4
+
+
+############################################################################################
+############################ DEPTHWISE BASELINE NETWORKS ###################################
+############################################################################################
+
+################
+# 256 Small (depth-wise) network (student)
+################
+
+migan_dw_e256:
+  super_cfg: migan_e256
+  args:
+    depthwise: True
+
+migan_dw_s256:
+  super_cfg: migan_s256
+  args:
+    depthwise: True
+
+migan_dw_g256:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_dw_e256)
+    synthesis: MODEL(migan_dw_s256)
+  pretrained: null
+
+migan_dw_d256:
+  super_cfg: migan_d256
+  args:
+    depthwise: True
+
+################
+# 512 Small (depth-wise) network (student)
+################
+
+migan_dw_e512:
+  super_cfg: migan_e512
+  args:
+    depthwise: True
+
+migan_dw_s512:
+  super_cfg: migan_s512
+  args:
+    depthwise: True
+
+migan_dw_g512:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_dw_e512)
+    synthesis: MODEL(migan_dw_s512)
+  pretrained: null
+
+migan_dw_d512:
+  super_cfg: migan_d512
+  args:
+    depthwise: True
+
+################
+# 128 Small (depth-wise) network (student)
+################
+
+migan_dw_e128:
+  super_cfg: migan_e128
+  args:
+    depthwise: True
+
+migan_dw_s128:
+  super_cfg: migan_s128
+  args:
+    depthwise: True
+
+migan_dw_g128:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_dw_e128)
+    synthesis: MODEL(migan_dw_s128)
+  pretrained: null
+
+migan_dw_d128:
+  super_cfg: migan_d128
+  args:
+    depthwise: True
+
+
+############################################################################################
+######################## DEPTHWISE BASELINE + REPARAM NETWORKS #############################
+############################################################################################
+
+################
+# 256 Small (depth-wise+reparam) network (student)
+################
+
+migan_dw_reparam_e256:
+  super_cfg: migan_e256
+  args:
+    depthwise: True
+    reparametrize: True
+    num_reparam_tensors: 9
+
+migan_dw_reparam_s256:
+  super_cfg: migan_s256
+  args:
+    depthwise: True
+    reparametrize: True
+    num_reparam_tensors: 9
+
+migan_dw_reparam_g256:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_dw_reparam_e256)
+    synthesis: MODEL(migan_dw_reparam_s256)
+  pretrained: null
+
+migan_dw_reparam_d256:
+  super_cfg: migan_d256
+  args:
+    depthwise: True
+    reparametrize: True
+    num_reparam_tensors: 9
+
+################
+# 512 Small (depth-wise+reparam) network (student)
+################
+
+migan_dw_reparam_e512:
+  super_cfg: migan_e512
+  args:
+    depthwise: True
+    reparametrize: True
+    num_reparam_tensors: 9
+
+migan_dw_reparam_s512:
+  super_cfg: migan_s512
+  args:
+    depthwise: True
+    reparametrize: True
+    num_reparam_tensors: 9
+
+migan_dw_reparam_g512:
+  symbol: migan
+  type: migan_generator
+  args:
+    encoder: MODEL(migan_dw_reparam_e512)
+    synthesis: MODEL(migan_dw_reparam_s512)
+  pretrained: null
+
+migan_dw_reparam_d512:
+  super_cfg: migan_d512
+  args:
+    depthwise: True
+    reparametrize: True
+    num_reparam_tensors: 9
