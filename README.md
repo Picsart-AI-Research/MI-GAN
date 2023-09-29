@@ -2,11 +2,11 @@
 
 This repository is the official implementation of MI-GAN.
 
-**MI-GAN: A Simple Baseline for Image Inpainting on Mobile Devices**
+**[MI-GAN: A Simple Baseline for Image Inpainting on Mobile Devices](https://openaccess.thecvf.com/content/ICCV2023/papers/Sargsyan_MI-GAN_A_Simple_Baseline_for_Image_Inpainting_on_Mobile_Devices_ICCV_2023_paper.pdf)**
 </br>
-Andranik Sargsyan,
-Shant Navasardyan,
-Xingqian Xu,
+[Andranik Sargsyan](https://scholar.google.com/citations?user=cg74A98AAAAJ&hl=ru&oi=ao),
+[Shant Navasardyan](https://scholar.google.com/citations?user=VJSh59sAAAAJ&hl=ru&oi=ao),
+[Xingqian Xu](https://ifp-uiuc.github.io/),
 [Humphrey Shi](https://www.humphreyshi.com)
 </br>
 
@@ -181,6 +181,19 @@ python -m scripts.export_inference_model --model-path PATH_TO_BEST_PLACES512_PKL
 ```
 The above example is for *places2-512* model. You need to change the `--resolution` argument to `256` for 256 models.
 The exported onnx and pt models and sample results will be saved in the specified `--output-dir` directory.
+
+## BibTeX
+If you use our work in your research, please cite our publication:
+```
+@InProceedings{Sargsyan_2023_ICCV,
+    author    = {Sargsyan, Andranik and Navasardyan, Shant and Xu, Xingqian and Shi, Humphrey},
+    title     = {MI-GAN: A Simple Baseline for Image Inpainting on Mobile Devices},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    month     = {October},
+    year      = {2023},
+    pages     = {7335-7345}
+}
+```
 
 ## Acknowledgement
 
