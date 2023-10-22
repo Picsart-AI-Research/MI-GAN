@@ -1,4 +1,4 @@
-# MI-GAN
+# MI-GAN: A Simple Baseline for Image Inpainting on Mobile Devices
 
 This repository is the official implementation of MI-GAN.
 
@@ -66,6 +66,8 @@ You can find more example images and masks in `examples` directory, and modify t
 MI-GAN and Co-Mod-GAN results presented in the Supplementary material.
 
 **Note:** With our provided free-form masks, `--invert-mask` option **should not** be used with the command.
+
+**Note:** Even though our method is fully convolutional, the provided `lib/model_zoo/migan_inference.py` implementation currently performs some fixed-resolution operations. If you need fully convolutional support, you need to make `filter_const` and `noise_const` computations dynamic (depending on the input size). See `self.register_buffer` in `SeparableConv2d` class and in `Upsample2d` class.
 
 ## Evaluation
 For MI-GAN evaluation on Places2 download Places365-Standard 256x256 and high resolution validation images 

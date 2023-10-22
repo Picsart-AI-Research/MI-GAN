@@ -77,19 +77,12 @@ class Downsample2d(nn.Module):
 
 
 class Upsample2d(nn.Module):
-    def __init__(self, in_channels):
+    def __init__(self, in_channels, resolution=None):
         super().__init__()
-
-        self.insert_zeros = nn.ConvTranspose2d(
-            in_channels=in_channels,
-            out_channels=in_channels,
-            kernel_size=2,
-            groups=in_channels,
-            bias=False,
-            stride=2
-        )
-        w = torch.tensor([[[[1., 0.], [0., 0.]]]], dtype=torch.float32)
-        self.insert_zeros.weight = nn.Parameter(w.repeat([*self.insert_zeros.weight.shape[:2], 1, 1]))
+        self.nearest_up = nn.Upsample(scale_factor=2, mode='nearest')
+        w = torch.tensor([[1., 0.], [0., 0.]], dtype=torch.float32)
+        assert resolution is not None
+        self.register_buffer('filter_const', w.repeat(1, 1, resolution//2, resolution//2))
 
         self.filter = nn.Conv2d(
             in_channels=in_channels,
@@ -103,7 +96,8 @@ class Upsample2d(nn.Module):
         self.filter.weight = nn.Parameter(f.repeat([*self.filter.weight.shape[:2], 1, 1]))
 
     def forward(self, x):
-        x = self.insert_zeros(x)
+        x = self.nearest_up(x)
+        x = x * self.filter_const
         x = F.pad(x, pad=(2, 1, 2, 1))
         x = self.filter(x)
         return x
@@ -147,7 +141,7 @@ class SeparableConv2d(nn.Module):
 
         self.upsample = None
         if up > 1:
-            self.upsample = Upsample2d(out_channels)
+            self.upsample = Upsample2d(out_channels, resolution=resolution)
 
         self.use_noise = use_noise
         if use_noise:
@@ -304,7 +298,7 @@ class SynthesisBlock(nn.Module):
         self.torgb = None
         if rgb_n is not None:
             self.torgb = nn.Conv2d(oc_n, rgb_n, 1)
-        self.upsample = Upsample2d(rgb_n)
+        self.upsample = Upsample2d(rgb_n, resolution=resolution)
 
     def forward(self, x, enc_feat, img):
         x = self.conv1(x)
