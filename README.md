@@ -10,6 +10,8 @@ This repository is the official implementation of MI-GAN.
 [Humphrey Shi](https://www.humphreyshi.com)
 </br>
 
+[Paper](https://openaccess.thecvf.com/content/ICCV2023/papers/Sargsyan_MI-GAN_A_Simple_Baseline_for_Image_Inpainting_on_Mobile_Devices_ICCV_2023_paper.pdf) | [Supp](https://openaccess.thecvf.com/content/ICCV2023/supplemental/Sargsyan_MI-GAN_A_Simple_ICCV_2023_supplemental.pdf)
+
 <p align="center">
 <img src="__assets__/github/teaser.png" width="800px"/>  
 <br>
@@ -18,6 +20,11 @@ the advantage of our network over state-of-the-art approaches. The size of the b
 approach and the number inside of the bubble shows the absolute number of model parameters. Our approach achieves a low FID, while
 being one order of magnitude smaller and faster than recent SOTA approaches.</em>
 </p>
+
+## Third-Party Implementations
+(Feel free to share your app/implementation/demo by creating an issue)
+
+[https://inpaintweb.lxfater.com](https://inpaintweb.lxfater.com/) - an open-source tool for in-browser inpainting by [@lxfater](https://twitter.com/lxfater), [[GitHub project]](https://github.com/lxfater/inpaint-web)
 
 ## Prepare environment
 
