@@ -24,7 +24,7 @@ being one order of magnitude smaller and faster than recent SOTA approaches.</em
 ## Third-Party Implementations
 (Feel free to share your app/implementation/demo by creating an issue)
 
-[https://inpaintweb.lxfater.com](https://inpaintweb.lxfater.com/) - an open-source tool for in-browser inpainting by [@lxfater](https://twitter.com/lxfater), [[GitHub project]](https://github.com/lxfater/inpaint-web)
+- 🔥 [https://inpaintweb.lxfater.com](https://inpaintweb.lxfater.com/) - an open-source tool for in-browser inpainting by [@lxfater](https://twitter.com/lxfater), [[GitHub project]](https://github.com/lxfater/inpaint-web)
 
 ## Prepare environment
 
@@ -186,10 +186,35 @@ You can choose to run on specific GPUs. For example, if you want to run on GPUs 
 
 After training you can generate the inference model from the saved best checkpoint with this command:
 ```bash
-python -m scripts.export_inference_model --model-path PATH_TO_BEST_PLACES512_PKL --origs-dir PATH_TO_PLACES512_IMAGES --masks-dir PATH_TO_PLACES512_MASKS --output-dir ./exported_models/migan_places512 --resolution 512 
+python -m scripts.export_inference_model \
+    --model-path PATH_TO_BEST_PLACES512_PKL \
+    --origs-dir ./examples/places2_512_freeform/images \
+    --masks-dir ./examples/places2_512_freeform/masks \
+    --output-dir ./exported_models/migan_places512 \
+    --resolution 512 
 ```
 The above example is for *places2-512* model. You need to change the `--resolution` argument to `256` for 256 models.
 The exported onnx and pt models and sample results will be saved in the specified `--output-dir` directory.
+
+## ONNX Pipelines for easier integration
+Additionally, we provide a script to convert the whole MI-GAN pipeline into ONNX for even easier use in your applications. Please see `scripts/create_onnx_pipeline.py` for details. Here is an example usage of the script:
+
+```bash
+python -m scripts.create_onnx_pipeline \
+    --resolution 512 \
+    --model-path ./models/migan_512_places2.pt \
+    --images-dir ./examples/places2_512_object/images \
+    --masks-dir ./examples/places2_512_object/masks \
+    --output-dir ./exported_models/places2_512_onnx_pipeline \
+    --device cpu \
+    --invert-mask
+```
+
+The generated ONNX model expects `image` and `mask` as an input, where `image` is a uint8 RGB image, and `mask` is a uint8 Grayscale mask (where 255 denotes known region values, 0 denotes masked region).
+
+Pipeline does almost all necessary preprocessing (uint8->float32 conversion, resize to 512x512, normalization) and postprocessing (resizing to original, blending, float32->uint8 conversion). You just need to provide the right image and mask (must be binary).
+
+Pre-converted ONNX model for MIGAN-512-Places2 Pipeline can be found [here](https://huggingface.co/andraniksargsyan/migan/resolve/main/migan.onnx).
 
 ## BibTeX
 If you use our work in your research, please cite our publication:
