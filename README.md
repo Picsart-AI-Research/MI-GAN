@@ -10,7 +10,7 @@ This repository is the official implementation of MI-GAN.
 [Humphrey Shi](https://www.humphreyshi.com)
 </br>
 
-[Paper](https://openaccess.thecvf.com/content/ICCV2023/papers/Sargsyan_MI-GAN_A_Simple_Baseline_for_Image_Inpainting_on_Mobile_Devices_ICCV_2023_paper.pdf) | [Supp](https://openaccess.thecvf.com/content/ICCV2023/supplemental/Sargsyan_MI-GAN_A_Simple_ICCV_2023_supplemental.pdf)
+[Paper](https://openaccess.thecvf.com/content/ICCV2023/papers/Sargsyan_MI-GAN_A_Simple_Baseline_for_Image_Inpainting_on_Mobile_Devices_ICCV_2023_paper.pdf) | [Supplementary](https://openaccess.thecvf.com/content/ICCV2023/supplemental/Sargsyan_MI-GAN_A_Simple_ICCV_2023_supplemental.pdf)
 
 <p align="center">
 <img src="__assets__/github/teaser.png" width="800px"/>  
@@ -25,6 +25,8 @@ being one order of magnitude smaller and faster than recent SOTA approaches.</em
 (Feel free to share your app/implementation/demo by creating an issue)
 
 - 🔥 [https://inpaintweb.lxfater.com](https://inpaintweb.lxfater.com/) - an open-source tool for in-browser inpainting by [@lxfater](https://twitter.com/lxfater), [[GitHub project]](https://github.com/lxfater/inpaint-web)
+
+See [For Developers](#for-developers) section below for easy-to-use MI-GAN ONNX Pipeline creation script, and for a pre-generated ONNX file, which can be seamlessly integrated into your app.
 
 ## Prepare environment
 
@@ -196,8 +198,8 @@ python -m scripts.export_inference_model \
 The above example is for *places2-512* model. You need to change the `--resolution` argument to `256` for 256 models.
 The exported onnx and pt models and sample results will be saved in the specified `--output-dir` directory.
 
-## ONNX Pipelines for easier integration
-Additionally, we provide a script to convert the whole MI-GAN pipeline into ONNX for even easier use in your applications. Please see `scripts/create_onnx_pipeline.py` for details. Here is an example usage of the script:
+## For Developers
+We provide a script to convert the whole MI-GAN pipeline into ONNX for easier use in real-world applications. Please see `scripts/create_onnx_pipeline.py` for details. Here is an example usage of the script:
 
 ```bash
 python -m scripts.create_onnx_pipeline \
@@ -212,9 +214,13 @@ python -m scripts.create_onnx_pipeline \
 
 The generated ONNX model expects `image` and `mask` as an input, where `image` is a uint8 RGB image, and `mask` is a uint8 Grayscale mask (where 255 denotes known region values, 0 denotes masked region).
 
-Pipeline does almost all necessary preprocessing (uint8->float32 conversion, resize to 512x512, normalization) and postprocessing (resizing to original, blending, float32->uint8 conversion). You just need to provide the right image and mask (must be binary).
+Pipeline does almost all necessary preprocessing (uint8->float32 conversion, cropping around the mask, resize to 512x512, normalization) and postprocessing (resizing to original, blending, float32->uint8 conversion). You just need to provide the right image and mask (must be binary). 
 
-Pre-converted ONNX model for MIGAN-512-Places2 Pipeline can be found [here](https://huggingface.co/andraniksargsyan/migan/resolve/main/migan.onnx).
+The Pipeline supports arbitrary resolution inputs, but please note that when inpainting high resolution images the best results can be achieved with small, incremental brush strokes (if the inpainting area is large).
+
+Pre-converted ONNX file for MI-GAN-512-Places2 Pipeline can be found [here](https://huggingface.co/andraniksargsyan/migan/resolve/main/migan_pipeline_v2.onnx).
+
+**Note for researchers:** The inference times reported in the paper are not based on the provided ONNX Pipeline. We measured the pure model inference times, whereas ONNX Pipeline introduced in this section includes complex pre-processing and post-processing, which are not included in reported times.
 
 ## BibTeX
 If you use our work in your research, please cite our publication:
