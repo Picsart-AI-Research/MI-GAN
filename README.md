@@ -10,7 +10,7 @@ This repository is the official implementation of MI-GAN.
 [Humphrey Shi](https://www.humphreyshi.com)
 </br>
 
-[Paper](https://openaccess.thecvf.com/content/ICCV2023/papers/Sargsyan_MI-GAN_A_Simple_Baseline_for_Image_Inpainting_on_Mobile_Devices_ICCV_2023_paper.pdf) | [Supplementary](https://openaccess.thecvf.com/content/ICCV2023/supplemental/Sargsyan_MI-GAN_A_Simple_ICCV_2023_supplemental.pdf)
+[[Paper](https://openaccess.thecvf.com/content/ICCV2023/papers/Sargsyan_MI-GAN_A_Simple_Baseline_for_Image_Inpainting_on_Mobile_Devices_ICCV_2023_paper.pdf)] | [[Supplementary](https://openaccess.thecvf.com/content/ICCV2023/supplemental/Sargsyan_MI-GAN_A_Simple_ICCV_2023_supplemental.pdf)]
 
 <p align="center">
 <img src="__assets__/github/teaser.png" width="800px"/>  
@@ -25,7 +25,7 @@ being one order of magnitude smaller and faster than recent SOTA approaches.</em
 (Feel free to share your app/implementation/demo by creating an issue)
 
 - 🔥 [https://inpaintweb.lxfater.com](https://inpaintweb.lxfater.com/) - an open-source tool for in-browser inpainting by [@lxfater](https://twitter.com/lxfater), [[GitHub project]](https://github.com/lxfater/inpaint-web)
-- 📱 A WeChat mini-program for on-device inpainting based on WeChat AI capabilities by [@zhiyuan54030554](https://x.com/zhiyuan54030554), [[GitHub project]](https://github.com/shifu-group/inpaint_wechat)
+- 📱 [inpaint_wechat](https://github.com/shifu-group/inpaint_wechat) - A WeChat mini-program for on-device inpainting by [@zhiyuan](https://x.com/zhiyuan54030554), [[GitHub project]](https://github.com/shifu-group/inpaint_wechat)
 
 See [For Developers](#for-developers) section below for easy-to-use MI-GAN ONNX Pipeline creation script, and for a pre-generated ONNX file, which can be seamlessly integrated into your app.
 
