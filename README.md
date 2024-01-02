@@ -25,6 +25,7 @@ being one order of magnitude smaller and faster than recent SOTA approaches.</em
 (Feel free to share your app/implementation/demo by creating an issue)
 
 - 🔥 [https://inpaintweb.lxfater.com](https://inpaintweb.lxfater.com/) - an open-source tool for in-browser inpainting by [@lxfater](https://twitter.com/lxfater), [[GitHub project]](https://github.com/lxfater/inpaint-web)
+- 🔥 A WeChat mini-program based on the WeChat AI capabilities by [![Twitter Follow](https://img.shields.io/twitter/follow/rules4thing?style=social)](https://x.com/zhiyuan54030554), [[GitHub project]](https://github.com/shifu-group/inpaint_wechat))
 
 See [For Developers](#for-developers) section below for easy-to-use MI-GAN ONNX Pipeline creation script, and for a pre-generated ONNX file, which can be seamlessly integrated into your app.
 
