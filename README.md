@@ -25,7 +25,14 @@ being one order of magnitude smaller and faster than recent SOTA approaches.</em
 (Feel free to share your app/implementation/demo by creating an issue)
 
 - 🔥 [https://inpaintweb.lxfater.com](https://inpaintweb.lxfater.com/) - an open-source tool for in-browser inpainting by [@lxfater](https://twitter.com/lxfater), [[GitHub project]](https://github.com/lxfater/inpaint-web)
-- 📱 [inpaint_wechat](https://github.com/shifu-group/inpaint_wechat) - A WeChat mini-program for on-device inpainting by [@zhiyuan](https://x.com/zhiyuan54030554), [[GitHub project]](https://github.com/shifu-group/inpaint_wechat)
+- 📱 [inpaint_wechat](https://github.com/shifu-group/inpaint_wechat) - a WeChat mini-program for on-device inpainting by [@zhiyuan](https://x.com/zhiyuan54030554), [[GitHub project]](https://github.com/shifu-group/inpaint_wechat)
+- 💻 [IOPaint](https://github.com/Sanster/lama-cleaner/releases/tag/iopaint-1.0.0b2) - a free and open-source inpainting tool powered by SOTA AI models by [@Sanster](https://twitter.com/sfjccz), [[GitHub project]](https://github.com/Sanster/lama-cleaner)
+  - To use MI-GAN model with IOPaint run
+    ```commandline
+    pip install iopaint
+    iopaint start --model migan
+    ```
+    in the terminal and open http://localhost:8080/
 
 See [For Developers](#for-developers) section below for easy-to-use MI-GAN ONNX Pipeline creation script, and for a pre-generated ONNX file, which can be seamlessly integrated into your app.
 
