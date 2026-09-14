@@ -22,7 +22,6 @@ from lib.model_zoo.comodgan import (
 
 warnings.filterwarnings("ignore")
 
-
 def read_mask(mask_path, invert=False):
     mask = Image.open(mask_path)
     mask = resize(mask, max_size=512, interpolation=Image.NEAREST)
@@ -54,12 +53,12 @@ def resize(image, max_size, interpolation=Image.BICUBIC):
 
 
 def preprocess(img: Image, mask: Image, resolution: int) -> torch.Tensor:
-    img = img.resize((resolution, resolution), Image.BICUBIC)
-    mask = mask.resize((resolution, resolution), Image.NEAREST)
+   
     img = np.array(img)
     mask = np.array(mask)[:, :, np.newaxis] // 255
     img = torch.Tensor(img).float() * 2 / 255 - 1
     mask = torch.Tensor(mask).float()
+
     img = img.permute(2, 0, 1).unsqueeze(0)
     mask = mask.permute(2, 0, 1).unsqueeze(0)
     x = torch.cat([mask - 0.5, img * mask], dim=1)
@@ -123,9 +122,10 @@ def main():
         mask_path = os.path.join(args.masks_dir, "".join(os.path.basename(img_path).split('.')[:-1]) + ".png")
 
         img = Image.open(img_path).convert("RGB")
-        img_resized = resize(img, max_size=resolution)
+        h, w = img.size
+        img_resized = img.resize((resolution, resolution), Image.BICUBIC)
         mask = read_mask(mask_path, invert=args.invert_mask)
-        mask_resized = resize(mask, max_size=resolution, interpolation=Image.NEAREST)
+        mask_resized = mask.resize((resolution, resolution), Image.NEAREST)
 
         x = preprocess(img_resized, mask_resized, resolution)
         if cuda:
@@ -137,8 +137,9 @@ def main():
 
         result_image = cv2.resize(result_image, dsize=img_resized.size, interpolation=cv2.INTER_CUBIC)
         mask_resized = np.array(mask_resized)[:, :, np.newaxis] // 255
+        
         composed_img = img_resized * mask_resized + result_image * (1 - mask_resized)
-        composed_img = Image.fromarray(composed_img)
+        composed_img = Image.fromarray(composed_img).resize((h, w))
         composed_img.save(args.output_dir / f"{Path(img_path).stem}.png")
 
 
