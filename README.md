@@ -47,7 +47,7 @@ pip install pip --upgrade
 pip install -r requirements.txt
 ```
 
-Download pre-trained MI-GAN models from [here](https://drive.google.com/drive/folders/1xNtvN2lto0p5yFKOEEg9RioMjGrYM74w?usp=share_link) and put into `./models` directory.
+Download pre-trained MI-GAN models from [here](https://drive.google.com/drive/folders/1xNtvN2lto0p5yFKOEEg9RioMjGrYM74w?usp=share_link) (see [LICENSE-WEIGHTS](https://github.com/Picsart-AI-Research/MI-GAN/blob/main/LICENSE-WEIGHTS) for the license) and put into `./models` directory.
 If you also want to test with Co-Mod-GAN models, download pre-trained models from [here](https://drive.google.com/drive/folders/1VATyNQQJW2VpuHND02bc-3_4ukJMHQ44?usp=share_link) and put into `./models` directory.
 
 ## Quick Test
